@@ -1,0 +1,205 @@
+
+SQL> SET LINES 100 PAGES 100;
+SQL> select count(*)
+  2  from emp
+  3  WHERE SAL < 2000 AND DEPTNO IN 10;
+
+  COUNT(*)
+----------
+         1
+
+SQL> SELECT SUM(SAL)
+  2  FROM EMP
+  3  WHERE JOB = 'CLERK';
+
+  SUM(SAL)
+----------
+      4150
+
+SQL> SELECT AVG(SAL)
+  2  FROM EMP
+  3  ;
+
+  AVG(SAL)
+----------
+2073.21429
+
+SQL> -- Question No 4
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE ENAME LIKE 'A%';
+
+  COUNT(*)
+----------
+         2
+
+SQL> -- Question No 5
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE JOB IN ('CLERK','MANAGER');
+
+  COUNT(*)
+----------
+         7
+
+SQL> -- Question No 6
+SQL> SELECT SUM(SAL)
+  2  FROM EMP
+  3  WHERE HIREDATE LIKE '%FEB%';
+
+  SUM(SAL)
+----------
+      2850
+
+SQL> -- Question No 7
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE MGR = 7839;
+
+  COUNT(*)
+----------
+         3
+
+SQL> -- Question No 8
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE COMM IS NOT NULL AND DEPTNO IN 30;
+
+  COUNT(*)
+----------
+         4
+
+SQL> SELECT AVG(SAL),SUM(SAL), COUNT(*),MAX(SAL)
+  2  FROM EMP
+  3  WHERE JOB = 'PRESIDENT';
+
+  AVG(SAL)   SUM(SAL)   COUNT(*)   MAX(SAL)
+---------- ---------- ---------- ----------
+      5000       5000          1       5000
+
+SQL> -- Question No 10
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE ENAME LIKE 'A%';
+
+  COUNT(*)
+----------
+         2
+
+SQL> SELECT COUNT(*), SUM(SAL)
+  2  FROM EMP
+  3  WHERE ENAME LIKE '%LL%';
+
+  COUNT(*)   SUM(SAL)
+---------- ----------
+         2       2900
+
+SQL> -- Question No 12
+SQL> SELECT COUNT(DISTINCT DEPTNO)
+  2  FROM EMP;
+
+COUNT(DISTINCTDEPTNO)
+---------------------
+                    3
+
+SQL> -- Question No 13
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE ENAME LIKE '%@_%' ESCAPE '@';
+
+  COUNT(*)
+----------
+         0
+
+SQL> -- Breakdown:
+SQL> -- %@_% means:
+SQL> -- % → any characters before
+-- @_ → matches the literal underscore _
+-- % → any characters after
+-- But why ESCAPE '@'?
+SQL> -- In SQL, '_' is a wildcard for any one character.
+SQL> -- To search for a literal underscore, you must escape it.
+SQL> -- The ESCAPE '@' tells SQL that @ is the escape character.
+SQL> -- So @_ means: match a real underscore, not a wildcard.
+SQL>
+SQL> -- For selection text like this Rahul_Kumar
+SQL>
+
+SQL> -- Question No 14
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE ENAME LIKE '%@%%@%%';
+
+  COUNT(*)
+----------
+         0
+
+SQL> SELECT COUNT(*)
+  2  FROM EMP
+  3  WHERE ENAME LIKE '%@%%@%%' ESCAPE '@';
+
+  COUNT(*)
+----------
+         0
+
+SQL> -- @% = match a literal percent sign %
+SQL> -- %@%%@%% means:
+SQL> -- % → any characters before
+-- @% → literal %
+-- % → any characters in between
+-- @% → literal %
+-- % → any characters after
+
+SQL>
+SQL>
+SQL> -- Question No 15
+SQL> SELECT SUM(SAL)
+  2  FROM EMP
+  3  WHERE JOB IN 'CLERK' AND DEPTNO IN 30;
+
+  SUM(SAL)
+----------
+       950
+
+SQL> -- Question No 16
+SQL> SELECT MAX(SAL)
+  2  FROM EMP
+  3  WHERE JOB = 'ANALYST';
+
+  MAX(SAL)
+----------
+      3000
+
+SQL> -- -- Question No 17
+SQL> SELECT COUNT(DISTINCT SAL)
+  2  FROM EMP;
+
+COUNT(DISTINCTSAL)
+------------------
+                12
+
+SQL> SELECT COUNT(DISTINCT JOB)
+  2  FROM EMP;
+
+COUNT(DISTINCTJOB)
+------------------
+                 5
+
+SQL> SELECT AVG(SAL)
+  2  FROM EMP
+  3  WHERE JOB IN 'CLERK';
+
+  AVG(SAL)
+----------
+    1037.5
+
+SQL> -- Question No 20
+SQL> SELECT MIN(SAL)
+  2  FROM EMP
+  3  WHERE JOB IN ('MANAGER','CLERK') AND DEPTNO IN 10;
+
+  MIN(SAL)
+----------
+      1300
+
+SQL>
