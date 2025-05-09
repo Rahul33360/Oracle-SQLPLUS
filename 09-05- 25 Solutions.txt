@@ -1,0 +1,133 @@
+Connected to:
+Oracle Database 10g Enterprise Edition Release 10.2.0.1.0 - Production
+With the Partitioning, OLAP and Data Mining options
+
+SQL> SET LINES 100 PAGES 100
+SQL> -- Question no 1
+SQL> SELECT COUNT(*), DEPTNO
+  2  FROM EMP
+  3  WHERE JOB NOT IN 'PRESIDENT'
+  4  GROUP BY DEPTNO;
+
+  COUNT(*)     DEPTNO
+---------- ----------
+         6         30
+         5         20
+         2         10
+
+SQL> SELECT SUM(SAL),JOB
+  2  FROM EMP
+  3  GROUP BY JOB;
+
+  SUM(SAL) JOB
+---------- ---------
+      4150 CLERK
+      5600 SALESMAN
+      5000 PRESIDENT
+      8275 MANAGER
+      6000 ANALYST
+
+SQL>  -- Question no 3
+SQL> SELECT COUNT(*), DEPTNO
+  2  FROM EMP
+  3  WHERE JOB = 'MANAGER'
+  4  GROUP BY DEPTNO;
+
+  COUNT(*)     DEPTNO
+---------- ----------
+         1         30
+         1         20
+         1         10
+
+SQL>  -- Question no 4
+SQL> SELECT AVG(SAL),DEPTNO
+  2  FROM EMP
+  3  WHERE DEPTNO NOT IN 20
+  4  GROUP BY DEPTNO;
+
+  AVG(SAL)     DEPTNO
+---------- ----------
+1566.66667         30
+2916.66667         10
+
+SQL>  -- Question no 5
+SQL> SELECT COUNT(*),JOB
+  2  FROM EMP
+  3  WHERE ENAME LIKE 'A%'
+  4  GROUP BY JOB;
+
+  COUNT(*) JOB
+---------- ---------
+         1 SALESMAN
+         1 CLERK
+
+SQL>  -- Question no 6
+SQL> SELECT COUNT(*),AVG(SAL),DEPTNO
+  2  FROM EMP
+  3  WHERE SAL > 2000
+  4  GROUP BY DEPTNO;
+
+  COUNT(*)   AVG(SAL)     DEPTNO
+---------- ---------- ----------
+         1       2850         30
+         3 2991.66667         20
+         2       3725         10
+
+SQL>  -- Question no 7
+SQL> SELECT SUM(SAL), COUNT('SALESMAN'),DEPTNO
+  2  FROM EMP
+  3  GROUP BY DEPTNO;
+
+  SUM(SAL) COUNT('SALESMAN')     DEPTNO
+---------- ----------------- ----------
+      9400                 6         30
+     10875                 5         20
+      8750                 3         10
+
+SQL>  -- Question no 8
+SQL> SELECT COUNT(*),MAX(SAL),JOB
+  2  FROM EMP
+  3  GROUP BY JOB;
+
+  COUNT(*)   MAX(SAL) JOB
+---------- ---------- ---------
+         4       1300 CLERK
+         4       1600 SALESMAN
+         1       5000 PRESIDENT
+         3       2975 MANAGER
+         2       3000 ANALYST
+
+SQL>  -- Question no 9
+SQL> SELECT MAX(SAL),DEPTNO
+  2  FROM EMP
+  3  GROUP BY DEPTNO;
+
+  MAX(SAL)     DEPTNO
+---------- ----------
+      2850         30
+      3000         20
+      5000         10
+
+SQL>  -- Question no 10
+SQL> SELECT COUNT(*),SAL
+  2  FROM EMP
+  3  GROUP BY SAL;
+
+  COUNT(*)        SAL
+---------- ----------
+         1       2450
+         1       5000
+         1       1300
+         2       1250
+         1       2850
+         1       2975
+         1       1100
+         2       3000
+         1        800
+         1       1600
+         1       1500
+         1        950
+
+12 rows selected.
+
+SQL>
