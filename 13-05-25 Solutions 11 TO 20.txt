@@ -1,0 +1,159 @@
+-- Question 11
+
+SELECT ENAME ,SAL
+FROM EMP
+WHERE SAL > (SELECT SAL 
+FROM EMP
+WHERE ENAME = 'MILLER') 
+AND SAL < (SELECT SAL 
+FROM EMP
+WHERE ENAME = 'ALLEN');
+
+ENAME             SAL
+---------- ----------
+TURNER           1500
+
+-- Question 12
+
+SELECT *
+FROM EMP
+WHERE DEPTNO = 20 AND JOB = (SELECT JOB
+FROM EMP
+WHERE ENAME = 'SMITH');
+
+
+   EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+-------- ---------- --------- ---------- --------- ---------- ---------- ----------
+    7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+    7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20
+
+
+-- Question 13
+
+SELECT *
+FROM EMP
+WHERE JOB ='MANAGER' AND DEPTNO = (SELECT DEPTNO
+FROM EMP 
+WHERE ENAME = 'TURNER');
+
+    EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+ -------- ---------- --------- ---------- --------- ---------- ---------- ----------
+     7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+
+
+-- Question 14
+
+SELECT ENAME, HIREDATE
+FROM EMP 
+WHERE HIREDATE > '01-JAN-1981' AND HIREDATE < (SELECT HIREDATE
+FROM EMP
+WHERE ENAME = 'KING');
+
+ENAME      HIREDATE
+---------- ---------
+ALLEN      20-FEB-81
+WARD       22-FEB-81
+JONES      02-APR-81
+MARTIN     28-SEP-81
+BLAKE      01-MAY-81
+CLARK      09-JUN-81
+TURNER     08-SEP-81
+
+
+-- Question 15
+
+
+SELECT ENAME, SAL, SAL*12
+FROM EMP
+WHERE SAL < (SELECT SAL
+FROM EMP
+WHERE ENAME = 'BLAKE') AND SAL > 3500;	
+
+no rows selected
+
+-- Question 16
+
+SELECT * 
+FROM EMP
+WHERE SAL > (SELECT SAL
+FROM EMP
+WHERE ENAME = 'SCOTT') AND SAL < (SELECT SAL
+FROM EMP
+WHERE ENAME = 'KING');		
+
+no rows selected
+
+
+-- Question 17
+
+
+SELECT ENAME
+FROM EMP
+WHERE ENAME LIKE 'A%' AND DEPTNO = (SELECT DEPTNO
+FROM EMP
+WHERE ENAME = 'BLAKE');
+
+ENAME
+----------
+ALLEN
+
+-- Question  18
+
+SELECT ENAME, COMM 
+FROM EMP
+WHERE COMM IS NOT NULL AND JOB = (SELECT JOB
+FROM EMP
+WHERE ENAME = 'SMITH');	
+
+
+no rows selected
+
+-- Question 19
+
+SELECT *
+FROM EMP
+WHERE JOB IN 'CLERK' AND DEPTNO = (SELECT DEPTNO
+FROM EMP
+WHERE ENAME = 'TURNER');
+
+
+   EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+-------- ---------- --------- ---------- --------- ---------- ---------- ----------
+    7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+
+
+-- Question 20
+
+SELECT ENAME,SAL, JOB
+FROM EMP
+WHERE SAL*12 > (SELECT SAL*12
+FROM EMP 
+WHERE ENAME = 'SMITH') AND SAL*12 < (SELECT SAL*12
+FROM EMP 
+WHERE ENAME = 'KING');
+
+
+ENAME             SAL JOB
+---------- ---------- --------
+ALLEN            1600 SALESMAN
+WARD             1250 SALESMAN
+JONES            2975 MANAGER
+MARTIN           1250 SALESMAN
+BLAKE            2850 MANAGER
+CLARK            2450 MANAGER
+SCOTT            3000 ANALYST
+TURNER           1500 SALESMAN
+ADAMS            1100 CLERK
+JAMES             950 CLERK
+FORD             3000 ANALYST
+MILLER           1300 CLERK
+
+12 rows selected.
+
+
+
+
+
+
+
+
