@@ -1,0 +1,83 @@
+
+SQL*Plus: Release 10.2.0.1.0 - Production on Tue May 13 00:20:17 2025
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+Enter user-name: scott
+Enter password:
+
+Connected to:
+Oracle Database 10g Enterprise Edition Release 10.2.0.1.0 - Production
+With the Partitioning, OLAP and Data Mining options
+
+SQL> set lines 100 pages 100
+SQL> SELECT JOB, MAX(SAL)
+  2  FROM EMP
+  3  GROUP BY JOB
+  4  HAVING MAX(SAL) > 2600;
+
+JOB         MAX(SAL)
+--------- ----------
+PRESIDENT       5000
+MANAGER         2975
+ANALYST         3000
+
+SQL> -- Question no 6
+SQL> SELECT SAL
+  2  FROM EMP
+  3  GROUP BY SAL
+  4  HAVING COUNT(*) > 1;
+
+       SAL
+----------
+      1250
+      3000
+
+SQL> -- Question no 7
+SQL> SELECT HIREDATE
+  2  FROM EMP
+  3  GROUP BY HIREDATE
+  4  HAVING COUNT(*) > 1;
+
+HIREDATE
+---------
+03-DEC-81
+
+SQL> -- Question no 8
+SQL> SELECT AVG(SAL),DEPTNO
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  HAVING AVG(SAL) < 3000;
+
+  AVG(SAL)     DEPTNO
+---------- ----------
+1566.66667         30
+      2175         20
+2916.66667         10
+
+SQL> -- Question no 9
+SQL> select DEPTNO
+  2  FROM EMP
+  3  WHERE ENAME LIKE '%A%' OR ENAME LIKE '%S%'
+  4  GROUP BY DEPTNO
+  5  HAVING COUNT(*) >= 3;
+
+    DEPTNO
+----------
+        30
+        20
+
+SQL> -- Question no 10
+SQL> select MIN(SAL),MAX(SAL),JOB
+  2  FROM EMP
+  3  GROUP BY JOB
+  4  HAVING MIN(SAL) > 1000 AND MAX(SAL) < 5000
+  5  ;
+
+  MIN(SAL)   MAX(SAL) JOB
+---------- ---------- ---------
+      1250       1600 SALESMAN
+      2450       2975 MANAGER
+      3000       3000 ANALYST
+
+SQL>

@@ -1,0 +1,108 @@
+SQL> SET LINES 100 PAGES 100
+SQL> -- Question no 1
+SQL> seLECT SUM(SAL), JOB
+  2  FROM EMP
+  3  GROUP BY JOB;
+
+  SUM(SAL) JOB
+---------- ---------
+      4150 CLERK
+      5600 SALESMAN
+      5000 PRESIDENT
+      8275 MANAGER
+      6000 ANALYST
+
+SQL>  -- Question no 2
+SQL> SELECT HIREDATE,COUNT(*)
+  2  FROM EMP
+  3  GROUP BY HIREDATE
+  4  HAVING COUNT(*) >= 3;
+
+no rows selected
+
+SQL> SELECT DEPTNO,COUNT(*),SUM(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  HAVING COUNT(*) > 2 AND SUM(SAL) > 9000;
+
+    DEPTNO   COUNT(*)   SUM(SAL)
+---------- ---------- ----------
+        30          6       9400
+        20          5      10875
+
+SQL>  -- Question no 4
+SQL> SELECT COUNT(*),AVG(SAL),DEPTNO
+  2  FROM EMP
+  3  WHERE SAL >= COMM
+  4  GROUP BY DEPTNO;
+
+  COUNT(*)   AVG(SAL)     DEPTNO
+---------- ---------- ----------
+         3       1450         30
+
+SQL>  -- Question no 5
+SQL> SELECT SAL,COUNT(*)
+  2  FROM EMP
+  3  GROUP BY SAL
+  4  HAVING COUNT(*) > 1;
+
+       SAL   COUNT(*)
+---------- ----------
+      1250          2
+      3000          2
+
+SQL>  -- Question no 6
+SQL> SELECT ENAME ,COUNT(*)
+  2  FROM EMP
+  3  GROUP BY ENAME
+  4  HAVING COUNT(*) > 1;
+
+no rows selected
+
+SQL>  -- Question no 7
+SQL> SELECT DEPTNO ,COUNT(*)
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  HAVING AVG(SAL) BETWEEN 2501 AND 2999;
+
+    DEPTNO   COUNT(*)
+---------- ----------
+        10          3
+
+SQL>  -- Question no 8
+SQL> SELECT COUNT(*),DEPTNO
+  2  FROM EMP
+  3  WHERE JOB IN ('MANAGER', 'ANALYST') AND SAL*12 LIKE'%0'
+  4  GROUP BY DEPTNO;
+
+  COUNT(*)     DEPTNO
+---------- ----------
+         1         30
+         3         20
+         1         10
+
+SQL> -- Question no 9
+SQL> SELECT COUNT(*),DEPTNO
+  2  FROM EMP
+  3  WHERE JOB IN ('CLERK')
+  4  GROUP BY DEPTNO;
+
+  COUNT(*)     DEPTNO
+---------- ----------
+         1         30
+         2         20
+         1         10
+
+SQL>  -- Question no 10
+SQL> SELECT MAX(SAL),DEPTNO
+  2  FROM EMP
+  3  WHERE JOB = 'MANAGER'
+  4  GROUP BY DEPTNO;
+
+  MAX(SAL)     DEPTNO
+---------- ----------
+      2850         30
+      2975         20
+      2450         10
+
+SQL> 
