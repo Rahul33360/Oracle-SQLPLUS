@@ -1,0 +1,81 @@
+SQL> -- Question 21
+
+SELECT DNAME 
+FROM DEPT
+WHERE DEPTNO = (SELECT DEPTNO
+FROM EMP 
+WHERE ENAME = 'SMITH');
+
+DNAME
+--------------
+RESEARCH
+
+SQL> -- Question 22
+
+SELECT DNAME, LOC 
+FROM DEPT
+WHERE DEPTNO = (SELECT DEPTNO
+FROM EMP
+WHERE ENAME = 'KING');
+
+
+DNAME          LOC
+-------------- -------------
+ACCOUNTING     NEW YORK
+
+
+
+SQL> -- Question 23
+
+SQL> SELECT LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO = (SELECT DEPTNO
+  4  FROM EMP
+  5  WHERE EMPNO = 7902);
+
+LOC
+-------------
+DALLAS
+
+
+-- QUESTION 24			
+
+
+SELECT DNAME,LOC,DEPTNO
+FROM DEPT
+WHERE DEPTNO IN (SELECT DEPTNO
+FROM EMP
+WHERE ENAME LIKE '%R');
+
+
+DNAME          LOC               DEPTNO
+-------------- ------------- ----------
+ACCOUNTING     NEW YORK              10
+SALES          CHICAGO               30
+
+
+-- QUESTION 25
+
+
+SELECT DNAME 
+FROM DEPT
+WHERE DEPTNO IN (SELECT DEPTNO
+FROM EMP
+WHERE JOB = 'PRESIDENT');
+
+
+DNAME
+--------------
+ACCOUNTING
+
+
+
+
+
+
+
+
+
+
+
+

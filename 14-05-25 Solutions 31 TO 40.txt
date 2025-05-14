@@ -1,0 +1,147 @@
+
+SQL*Plus: Release 10.2.0.1.0 - Production on Wed May 14 23:09:32 2025
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+Enter user-name: scott
+Enter password: tiger
+
+Connected to:
+Oracle Database 10g Enterprise Edition Release 10.2.0.1.0 - Production
+With the Partitioning, OLAP and Data Mining options
+
+SQL> set lines 100 pages 100
+SQL> -- QUESTION 31
+SQL>
+SQL> SELECT ENAME , SAL
+  2  FROM EMP
+  3  WHERE SAL > (SELECT SAL
+  4  FROM EMP
+  5  WHERE ENAME = 'SCOTT') AND DEPTNO  IN (SELECT DEPTNO
+  6  FROM DEPT
+  7  WHERE DNAME = 'ACCOUNTING');
+
+ENAME             SAL
+---------- ----------
+KING             5000
+
+
+SQL> -- QUESTION 32
+SQL>
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE JOB = 'MANAGER' AND DEPTNO IN ( SELECT DEPTNO
+  4  FROM DEPT
+  5  WHERE LOC = 'CHICAGO');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+
+SQL>
+SQL> -- QUESTION 33
+SQL> SELECT ENAME,SAL
+  2  FROM EMP
+  3  WHERE SAL > ( SELECT SAL
+  4  FROM EMP
+  5  WHERE ENAME  = 'KING' ) AND DEPTNO = (SELECT DEPTNO
+  6  FROM DEPT
+  7  WHERE DNAME = 'ACCOUNTING');
+
+no rows selected
+
+SQL>
+SQL> -- QUESTION 34
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE JOB = 'SALESMAN' AND DEPTNO IN (SELECT DEPTNO
+  4  FROM DEPT
+  5  WHERE DNAME = 'SALES');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+
+SQL> -- QUESETION 35
+SQL> SELECT ENAME,SAL,JOB, HIREDATE
+  2  FROM EMP
+  3  WHERE HIREDATE  < (SELECT HIREDATE
+  4  FROM EMP
+  5  WHERE ENAME = 'KING') AND DEPTNO IN (SELECT DEPTNO
+  6  FROM DEPT
+  7  WHERE DNAME = 'OPERATIONS');
+
+no rows selected
+
+SQL> -- QUESETION 36
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE DEPTNO IN (SELECT DEPTNO
+  4  FROM DEPT
+  5  WHERE DNAME LIKE '%S');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+
+6 rows selected.
+
+SQL>
+SQL> -- QUESETION 37
+SQL>
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO IN (SELECT DEPTNO
+  4  FROM EMP
+  5  WHERE ENAME LIKE '%A%');
+
+DNAME
+--------------
+ACCOUNTING
+RESEARCH
+SALES
+
+SQL>
+SQL> -- QUESTION 38
+SQL>
+SQL> SELECT DNAME ,LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO IN (SELECT DEPTNO
+  4  FROM EMP
+  5  WHERE SAL = 800);
+
+DNAME          LOC
+-------------- -------------
+RESEARCH       DALLAS
+
+SQL> -- QUESTION 39
+SQL>
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO IN (SELECT DEPTNO
+  4  FROM EMP
+  5  WHERE COMM IS NOT NULL);
+
+DNAME
+--------------
+SALES
+
+SQL> -- QUESETION 40
+SQL>
+SQL> SELECT LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO IN (SELECT DEPTNO
+  4  FROM EMP
+  5  WHERE DEPTNO = 40 AND COMM IS NOT NULL);
+
+no rows selected
+
+SQL>
