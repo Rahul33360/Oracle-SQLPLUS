@@ -1,0 +1,342 @@
+--	Question 1
+-- 1. DISPLAY DNAME, LOC, DEPTNO OF EMPLOYEES WHO HAS SAME REPORTING MANAGER?
+
+SELECT DNAME,LOC, DEPTNO
+FROM DEPT
+WHERE DEPTNO IN (SELECT DEPTNO
+FROM EMP
+WHERE MGR IN MGR);
+
+OUTPUT:
+DNAME          LOC               DEPTNO
+-------------- ------------- ----------
+ACCOUNTING     NEW YORK              10
+RESEARCH       DALLAS                20
+SALES          CHICAGO               30
+
+
+-- Question 2 
+-- 2.DISPLAY ALL EMPLOYEES DETAILS WHOSE HIREDATE IS IN YEAR 81 ???
+
+SELECT *
+FROM EMP
+WHERE HIREDATE LIKE '%81';
+
+OUTPUT:
+
+    EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+--------- ---------- --------- ---------- --------- ---------- ---------- ----------
+     7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+     7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+     7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+     7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+     7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+     7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+     7839 KING       PRESIDENT            17-NOV-81       5000                    10
+     7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+     7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+     7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+
+10 rows selected.
+
+
+-- Question 3		 
+-- 3. DISPLAY DEPARTMENT NAME WHICH IS HAVING AT LEAST ONE 'MANAGER'
+
+SELECT DNAME
+FROM DEPT
+WHERE DEPTNO IN (SELECT DEPTNO
+FROM EMP
+WHERE JOB = 'MANAGER');
+
+OUTPUT:
+
+DNAME
+--------------
+ACCOUNTING
+RESEARCH
+SALES
+
+
+-- Question 4	 
+-- 4. DISPLAY DEPARTMENT WISE MINIMUM SALARY WHICH IS LESS THAN AVERAGE SALARY OF EMPLOYEES.
+
+
+SELECT DEPTNO,MIN(SAL)
+FROM EMP
+GROUP BY DEPTNO
+HAVING MIN(SAL) < (SELECT AVG(SAL) FROM EMP);
+
+OUTPUT:
+
+  DEPTNO   MIN(SAL)
+-------- ----------
+      30        950
+      20        800
+      10       1300
+
+
+-- Question 5
+-- 5. LIST EMPLOYEES FROM SALES AND RESEARCH DEPARTMENT HAVING ATLEAST 2 REPORTING EMPLOYEES
+
+
+SELECT ENAME
+FROM EMP
+WHERE DEPTNO IN (SELECT DEPTNO 
+FROM DEPT
+WHERE DNAME IN ('SALES','RESEARCH')) AND EMPNO IN(SELECT MGR
+FROM EMP
+WHERE MGR IS NOT NULL
+GROUP BY MGR
+HAVING COUNT(MGR) >= 2);
+
+OUTPUT:
+
+ENAME
+----------
+BLAKE
+JONES
+
+
+-- Question 6
+-- 6. DISPLAY DEPARTMENT NAME OF THE EMPLOYEE WHO EARN MINMUM SALARY AND HAVE REPORTING MANAGER.
+
+
+SELECT DNAME
+FROM DEPT
+WHERE DEPTNO IN (SELECT DEPTNO
+FROM EMP
+WHERE SAL = (SELECT MIN(SAL) FROM EMP)
+AND MGR IS NOT NULL);
+
+OUTPUT:
+
+DNAME
+--------------
+RESEARCH
+
+
+-- Question 7
+-- 7. LIST EMPLOYEES WHO WORK FOR SALES DEPARTMENT AND THEIR SALARY GREATER THAN AVERAGE SALARY OF THEIR DEPARTMENT.
+
+
+SELECT *
+FROM EMP
+WHERE DEPTNO = (
+    SELECT DEPTNO
+    FROM DEPT
+    WHERE DNAME = 'SALES'
+)
+AND SAL > (
+    SELECT AVG(SAL)
+    FROM EMP
+    WHERE DEPTNO = (
+        SELECT DEPTNO
+        FROM DEPT
+        WHERE DNAME = 'SALES'
+    )
+);
+
+
+OUTPUT:
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+
+
+-- Question 8
+-- 8. DISPLAY MARTIN'S MANAGER'S MANAGER'S DEPARTMENT NAME AND LOCATION.
+
+
+SELECT DNAME,LOC
+FROM DEPT
+WHERE DEPTNO IN (SELECT DEPTNO
+FROM EMP
+WHERE EMPNO IN (SELECT MGR
+FROM EMP
+WHERE EMPNO IN (SELECT MGR
+FROM EMP 
+WHERE ENAME='MARTIN')));
+
+
+OUTPUT:
+
+DNAME          LOC
+-------------- -------------
+ACCOUNTING     NEW YORK
+
+
+
+-- Question 9
+-- 9. DISPLAY THE MANAGER NUMBER, JOB AND DEPARTMENT NUMBER FOR THOSE WHO DON'T HAVE COMMISSION IN THE LOCATION CHICAGO OR DALLAS
+
+
+SELECT MGR,JOB,DEPTNO
+FROM EMP
+WHERE COMM IS NULL AND DEPTNO IN (
+SELECT DEPTNO
+FROM DEPT
+WHERE LOC IN ('CHICAGO', 'DALLAS') 
+);
+
+OUTPUT:
+
+       MGR JOB           DEPTNO
+---------- --------- ----------
+      7902 CLERK             20
+      7839 MANAGER           20
+      7839 MANAGER           30
+      7566 ANALYST           20
+      7788 CLERK             20
+      7698 CLERK             30
+      7566 ANALYST           20
+
+7 rows selected.
+
+
+-- Question 10
+-- 10. DISPLAY THE LAST EMPLOYEE RECORD WITH 25% HIKE IN SALARY.
+
+
+SELECT EMP.*, SAL+SAL*25/100 AS HIKE_SAL
+FROM EMP 
+WHERE HIREDATE IN (SELECT MAX(HIREDATE) FROM EMP);
+
+OUTPUT:
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO   HIKE_SAL
+---------- ---------- --------- ---------- --------- ---------- ---------- ---------- ----------
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20       1375
+
+
+-- Question 11
+-- 11. DISPLAY THE NUMBER OF EMPLOYEES WHO WORK FOR RESEARCH DEPT AND THEIR SALARY IS LESSER THAN ONE OF THE SALARY IN DEPARTMENT IN 10.
+
+SELECT COUNT(*)
+FROM EMP
+WHERE DEPTNO = ( SELECT DEPTNO
+FROM DEPT
+WHERE DNAME = 'RESEARCH') AND SAL < ANY ( SELECT SAL 
+FROM EMP
+WHERE DEPTNO = 10);
+
+OUTPUT:
+
+  COUNT(*)
+----------
+         5
+
+
+-- Question 12
+-- 12. DISPLAY ALL THE EMPLOYEE WHOSE SALARY IS GREATER THAN AVERAGE SALARY OF DEPARTMENT 30.
+
+
+SELECT *
+FROM EMP
+WHERE SAL > (SELECT AVG(SAL) 
+FROM EMP
+WHERE DEPTNO = 30);
+
+OUTPUT:
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+
+7 rows selected.
+
+
+-- Question 13
+-- 13. LIST THE DEPT NAME THAT ARE HAVING AT LEAST 3 EMPLOYEES BUT NOT MORE THAN 5 EMPLOYEES IN IT.
+
+
+SELECT DNAME
+FROM DEPT
+WHERE DEPTNO IN (SELECT DEPTNO
+FROM EMP
+GROUP BY DEPTNO
+HAVING COUNT(*) >= 3 AND COUNT(*) <= 5);
+
+OUTPUT:
+
+DNAME
+--------------
+RESEARCH
+ACCOUNTING
+
+
+-- Question 14
+-- 14. LIST EMPLOYEES FROM SALES AND RESEARCH DEPARTMENT HAVING ATLEAST 2 REPORTING EMPLOYEES
+
+
+SELECT *
+FROM EMP
+WHERE DEPTNO IN ( SELECT DEPTNO
+FROM DEPT 
+WHERE DNAME IN ('SALES', 'RESEARCH') ) AND EMPNO IN (SELECT MGR
+FROM EMP
+GROUP BY MGR
+HAVING COUNT(*) >= 2 );
+
+OUTPUT:
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+
+
+-- Question 15
+-- 15. LIST EMPLOYEES WHO HAVE COMMISSION GREATER THAN MAXIMUM SALARY OF ALL THE SALESMAN AND WHO DO NOT REPORT TO KING DIRECTLY .
+
+
+SELECT *
+FROM EMP
+WHERE COMM > ( SELECT MAX(SAL)
+FROM EMP
+WHERE JOB = 'SALESMAN' ) AND MGR NOT IN ( SELECT EMPNO
+FROM EMP
+WHERE ENAME = 'KING');
+
+OR
+-- THIS SOLUTION IS ALSO CORRECT BUT NOT SUGGESTABLE BECAUSE.(if there is large dataset then the COMM will be compared by all the sal of salesman which results in slower and time consuming. 
+
+SELECT *
+FROM EMP
+WHERE COMM > ALL ( SELECT SAL
+FROM EMP
+WHERE JOB = 'SALESMAN' ) AND MGR NOT IN ( SELECT EMPNO
+FROM EMP
+WHERE ENAME = 'KING');
+
+
+OUTPUT:
+
+no rows selected
+
+
+-- Question SELF-MADE Question
+-- (SELF-MADE) 16. DISPLAY THE NUMBER OF EMPLOYEES WHO WORK FOR RESEARCH DEPT AND THEIR SALARY IS LESSER 
+
+
+SELECT COUNT(*)
+FROM EMP
+WHERE DEPTNO = ( SELECT DEPTNO
+FROM DEPT
+WHERE DNAME = 'RESEARCH') AND SAL < ( SELECT AVG(SAL) FROM EMP) ;
+
+OUTPUT:
+
+  COUNT(*)
+----------
+         2
+
