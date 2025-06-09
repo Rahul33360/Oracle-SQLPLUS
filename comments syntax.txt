@@ -1,0 +1,15 @@
+Oracle Db 10g
+
+for cleaning the screen - cl scr
+cor checking everything happend well - set lines 100 pages 100;
+
+
+Single-Line Comment
+	Use -- to write a single-line comment:
+Multi-Line (Block) Comment
+	Use /* ... */ for multi-line comments:
+
+
+
+
+
