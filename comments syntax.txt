@@ -11,5 +11,6 @@ Multi-Line (Block) Comment
 
 
 
-
+For Terminal 
+clear screen  -  Press Ctrl + Shift + P → type Clear → select Clear buffer or Clear screen.
 

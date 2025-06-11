@@ -1,0 +1,64 @@
+View , Materialized-View
+
+-- View
+
+CREATE VIEW Sale AS 
+SELECT EMP.*,DNAME,LOC
+FROM EMP,DEPT
+WHERE EMP.DEPTNO = DEPT.DEPTNO AND JOB = 'SALESMAN';
+
+
+View created.
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+DEPT                           TABLE
+EMP                            TABLE
+BONUS                          TABLE
+SALGRADE                       TABLE
+MOVIESS                        TABLE
+SALE                           VIEW
+
+6 rows selected.
+
+SQL> select * from sale;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO DNAME          LOC
+---------- ---------- --------- ---------- --------- ---------- ---------- ---------- --------------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30 SALES          CHICAGO
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30 SALES          CHICAGO
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30 SALES          CHICAGO
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30 SALES          CHICAGO
+
+
+
+
+
+-- Materialized-View
+
+Connected.
+SQL>CREATE MATERIALIZED VIEW MatSale 
+	AS 
+    SELECT EMP.*, DNAME, LOC
+    FROM EMP, DEPT
+    WHERE EMP.DEPTNO = DEPT.DEPTNO 
+    AND JOB = 'SALESMAN';
+
+
+Materialized view created.
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+DEPT                           TABLE
+EMP                            TABLE
+BONUS                          TABLE
+SALGRADE                       TABLE
+MOVIESS                        TABLE
+SALE                           VIEW
+MATSALE                        TABLE
+
+7 rows selected.

@@ -1,0 +1,136 @@
+-- SECTION A
+
+-- Question 1 What is DDL in SQL? List any four DDL commands.
+
+DDL stands for Data Definition Language. DDL in SQL refers to the commands used to define, create, and modify the structure of database objects such as tables, schemas, indexes, and views.
+
+Common DDL commands:-
+
+CREATE – to create new database objects
+ALTER – to modify existing structures
+DROP – to delete objects
+TRUNCATE – to remove all data from a table without deleting the table itself
+
+
+-- Question 2 Differentiate between DROP, DELETE and TRUNCATE.
+
+	1. DROP removes the entire table structure from the database.After DROP, the table is gone;
+	2. DELETE removes specific rows based on condition (can use WHERE). DELETE can be rolled back (if inside a transaction); After DELETE/TRUNCATE, table structure remains.
+	3. TRUNCATE removes all rows from a table without a WHERE clause. TRUNCATE and DROP usually cannot be rolled back. TRUNCATE is faster than DELETE as it doesn’t log each row deletion.
+
+
+-- Question 3.Write the syntax for creating a table in SQL.
+
+CREATE TABLE TAB_NAME (
+COL_NAME_1 DataTypes Constraints,
+COL_NAME_2 DataTypes Constraints,
+.
+.
+.
+COL_NAME_n DataTypes constraints );
+
+
+-- Question 4.What is the difference between PRIMARY KEY and UNIQUE constraints?
+
+	1. PRIMARY KEY does not allow nulls whereas UNIQUE allows null value.
+	2. A table can have only one PRIMARY KEY, but multiple UNIQUE constraints can be assigned to column.
+
+	3. PRIMARY KEY is used to uniquely identify each row whereas UNIQUE constraints used to prevent duplicate values in column.
+	
+	4. Both ensure uniqueness, but PRIMARY KEY is stricter.
+	5. PRIMARY KEY is combination of UNIQUE + NOT NULL.
+
+-- Question 5. Explain the use of the ALTER command in SQL.
+
+The ALTER command is used to modify the structure of an existing table.
+	Commandds are:-
+
+-- SECTION - B
+
+-- Question 6 Write a query to create a table named STUDENTS with the following 	 structure:
+	StudentID - INT/ NUMBER, Primary Key
+	StudentName - VARCHAR(50)
+	DOB - DATE
+	Email - VARCHAR(100), Unique
+	Marks - DECIMAL(5,2)
+
+
+	CREATE TABLE STUDENTS 
+	(STUDENTID NUMBER(3) PRIMARY KEY,
+	STUDENTNAME VARCHAR(50) NOT NULL,
+	DOB DATE NOT NULL,
+	EMAIL VARCHAR(100) NOT NULL UNIQUE,
+	MARKS NUMBER(5,2) 
+	);
+
+
+-- Question 7 Write a query to modify the STUDENTS table to add a new column PhoneNumber as VARCHAR(15).
+ 
+ 
+ALTER TABLE STUDENTS 
+ADD PHONENUMBER VARCHAR(15) NOT NULL;
+
+
+-- Question 8 Write a query to rename the STUDENTS table to COLLEGE STUDENTS.
+
+
+RENAME STUDENTS TO COLLEGE_STUDENTS;
+
+
+-- Question 9 Write a query to delete the column Email from the STUDENTS table.
+
+
+ALTER TABLE COLLEGE_STUDENTS DROP COLUMN EMAIL;
+
+
+-- Question 10 Write a query to drop the COLLEGE_STUDENTS table completely from the database.
+
+DROP TABLE COLLEGE_STUDENTS;		
+-- THEN 
+PURGE TABLE COLLEGE_STUDENTS;
+
+
+
+-- SECTION C
+
+-- Question 11 Assume you are creating a database for a gym. Write DDL queries to:
+Create a table called TRAINERS with TrainerID (Primary Key), Name, Specialization, and Experience (in years).
+Create a table called MEMBERS with MemberID (Primary Key), Name, Age, JoinDate, and AssignedTrainerID (foreign key referencing TRAINERS).
+
+
+	CREATE TABLE TRAINERS 
+	(TRAINERID NUMBER(4) PRIMARY KEY,
+	NAME VARCHAR(15) NOT NULL,
+	SPECIALIZATION VARCHAR(20) NOT NULL,
+	EXPERIENCE NUMBER(2) NOT NULL
+	);
+
+
+	CREATE TABLE MEMBERS 
+	(MEMBERID NUMBER(4) PRIMARY KEY,
+	NAME VARCHAR(15) NOT NULL,
+	AGE NUMBER(2) NOT NULL,
+	JOINDATE DATE NOT NULL,
+	ASSIGNEDTRAINERID NUMBER(4) REFERENCES TRAINERS (TRAINERID)
+	);
+
+
+-- Question 12 You are managing a school database. Write SQL DDL queries to:
+Create a table TEACHERS with TeacherID (Primary Key), Name, Subject, and Salary.
+Alter the table to add a JoiningDate. Drop the Salary column from the table.
+
+
+	CREATE TABLE TEACHER
+	(TEACHERID NUMBER(3) PRIMARY KEY,
+	NAME VARCHAR(15) NOT NULL,
+	SUBJECT VARCHAR(15) NOT NULL,
+	SALARY NUMBER(5) NOT NULL
+	);
+
+
+	ALTER TABLE TEACHER 
+	ADD JOININGDATE DATE NOT NULL;
+
+
+	ALTER TABLE TEACHER 
+	DROP COLUMN SALARY;

@@ -1,0 +1,37 @@
+CO-Related Sub-Queries
+
+
+-- Question 1 Display the 3rd max Sal.
+
+
+SELECT DISTINCT E1.SAL,E1.*
+FROM EMP E1
+WHERE 2 IN (SELECT COUNT(DISTINCT E2.SAL)
+FROM EMP E2
+WHERE E1.SAL < E2.SAL);
+
+
+OUTPUT:- 
+
+       SAL      EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      2975       7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+
+
+
+
+-- Question 2 Display 3rd MIN Sal
+
+
+SELECT DISTINCT E1.Sal,E1.*
+FROM EMP E1
+WHERE 2 IN (SELECT COUNT(DISTINCT E2.SAL)
+FROM EMP E2
+WHERE E1.Sal > E2.Sal);
+
+
+OUTPUT:-
+
+      SAL      EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+--------- ---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+     1100       7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20
