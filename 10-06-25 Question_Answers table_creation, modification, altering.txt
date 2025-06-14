@@ -1,4 +1,4 @@
--- SECTION A
+-- SECTION A 
 
 -- Question 1 What is DDL in SQL? List any four DDL commands.
 
@@ -97,6 +97,8 @@ PURGE TABLE COLLEGE_STUDENTS;
 Create a table called TRAINERS with TrainerID (Primary Key), Name, Specialization, and Experience (in years).
 Create a table called MEMBERS with MemberID (Primary Key), Name, Age, JoinDate, and AssignedTrainerID (foreign key referencing TRAINERS).
 
+
+-- ANS
 
 	CREATE TABLE TRAINERS 
 	(TRAINERID NUMBER(4) PRIMARY KEY,

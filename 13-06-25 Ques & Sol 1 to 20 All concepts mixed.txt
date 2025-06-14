@@ -1,0 +1,405 @@
+
+-- Question 1  WAQTD NAMES OF ALL THE EMPLOYEES WHO WORKS IN DEPT 30 AND HAS A REPORTING MANAGER.
+
+	
+SELECT ENAME
+FROM EMP
+WHERE DEPTNO = 30 AND MGR IS NOT NULL;
+
+
+-- OUTPUT:
+
+ENAME
+----------
+ALLEN
+WARD
+MARTIN
+BLAKE
+TURNER
+JAMES
+
+6 rows selected.
+
+
+
+-- Question 2  WAQTD JOB WISE TOTAL SALARY
+
+
+SELECT JOB, SUM(SAL) AS TOTAL_SAL
+FROM EMP
+GROUP BY JOB;
+
+
+-- OUTPUT:
+
+JOB        TOTAL_SAL
+--------- ----------
+CLERK           4150
+SALESMAN        5600
+PRESIDENT       5000
+MANAGER         8275
+ANALYST         6000
+
+
+
+-- Question 3 WAQTD NAMES THAT HAS A '@' PRESENT IN THE NAME.
+
+
+SELECT ENAME
+FROM EMP
+WHERE ENAME LIKE '%@%';
+
+
+
+-- OUTPUT:
+
+
+no rows selected
+
+
+
+-- Question 4 WAQTD THE SALARIES THAT ARE REPEATED IN EMPLOYEE TABLE EXCLUDING SALARIES OF DEPT 10
+
+
+SELECT SAL
+FROM EMP
+WHERE DEPTNO NOT IN (10)
+GROUP BY SAL
+HAVING COUNT(*) > 1;
+
+
+-- OUTPUT:
+
+
+       SAL
+----------
+      1250
+      3000
+
+
+-- Question 5  WAQTD NUMBER OF EMPLOYEES WORKING AS CLERK IN DEPT 10 OR 20 WITH A SALARY MORE THAN 1000 BUT LESS THAN 4000
+
+
+SELECT COUNT(ENAME)
+FROM EMP
+WHERE DEPTNO IN (10,20) AND JOB = 'CLERK' AND SAL BETWEEN 1001 AND 3999;
+
+
+-- OUTPUT:
+
+COUNT(ENAME)
+------------
+           2
+
+
+
+-- Question 6 WAQTD DETAILS OF THE EMPLOYEES HIRED IN THE MONTH OF SEPTEMBER
+
+
+SELECT * 
+FROM EMP
+WHERE HIREDATE LIKE '%SEP%';
+
+
+
+-- OUTPUT:
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+
+
+
+-- Question 7 WAQTD DETAILS OF THE EMPLOYEE WORKING AS A MANAGER OR A SALESMAN IN DEPT 10 OR 30 AND HIRED DURING THE YEAR 82
+
+
+
+SELECT *
+FROM EMP
+WHERE JOB IN ('MANAGER','SALESMAN') AND DEPTNO IN (10,30) AND HIREDATE LIKE '%82';
+
+
+-- OUTPUT:
+
+
+no rows selected
+
+
+
+-- Question 8 WAQTD DEPTNO , SAL IF AN EMPLOYEE WORKS IN THE SAME DEPT WITH THE SAME SALARY
+
+
+SELECT DEPTNO,SAL
+FROM EMP
+GROUP BY DEPTNO,SAL
+HAVING COUNT(*) > 1;
+
+
+-- OUTPUT:
+
+
+    DEPTNO        SAL
+---------- ----------
+        30       1250
+        20       3000
+
+
+
+
+-- Question 9 WAQTD JOB AND MAXIMUM SALARY GIVEN FOR EACH JOB
+
+
+SELECT JOB,MAX(SAL)
+FROM EMP
+GROUP BY JOB;
+
+
+-- OUTPUT:
+
+
+JOB         MAX(SAL)
+--------- ----------
+CLERK           1300
+SALESMAN        1600
+PRESIDENT       5000
+MANAGER         2975
+ANALYST         3000
+
+
+
+
+-- Question 10 WAQTD ALL THE DETAILS OF EMPLOYEES EXCEPT THE EMPLOYEES WHO NAME STARTS WITH (A,S.J)
+
+
+SELECT *
+FROM EMP
+WHERE ENAME NOT LIKE 'A%' AND ENAME NOT LIKE 'S%' AND ENAME NOT LIKE 'J%';
+
+
+
+-- OUTPUT:
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+8 rows selected.
+
+
+
+-- Question 11 WAQTD NUMBER OF EMP EARNING SAL LESS MILLER AND WORKING IN ACCOUNTING DEPT
+
+
+SELECT COUNT(*)
+FROM EMP
+WHERE SAL < (SELECT SAL FROM EMP WHERE ENAME = 'MILLER') AND DEPTNO IN ( SELECT DEPTNO 
+FROM DEPT 
+WHERE DNAME = 'ACCOUNTING');
+
+
+
+-- OUTPUT:
+
+
+  COUNT(*)
+----------
+         0
+
+
+-- Question 12 WAQTD DEPTNAME OF THE EMPLOYEE EARNING 3RD MAXIMUM SALARY.
+
+
+SELECT D1.DNAME
+FROM DEPT D1
+WHERE DEPTNO IN (SELECT DEPTNO FROM EMP
+				WHERE SAL IN (SELECT DISTINCT E1.SAL
+								FROM EMP E1
+								WHERE 2 IN (SELECT COUNT(DISTINCT E2.SAL)
+											FROM EMP E2
+											WHERE E1.SAL < E2.SAL)));
+											
+											
+OUTPUT:
+
+
+DNAME
+--------------
+RESEARCH
+
+
+-- Question 13 .WAQTD EMPLOYEE NAMES AND DEPT NAMES FOR ALL THE EMPLOYEES WORKING IN NEW YORK AND EARNING MORE THAN JAMES.
+
+
+SELECT E1.ENAME,D1.DNAME
+FROM EMP E1, DEPT D1
+WHERE E1.DEPTNO = D1.DEPTNO AND D1.LOC = 'NEW YORK' AND SAL > (SELECT SAL
+	FROM EMP
+	WHERE ENAME = 'JAMES');
+	
+	
+
+-- OUTPUT:
+
+
+ENAME      DNAME
+---------- --------------
+CLARK      ACCOUNTING
+KING       ACCOUNTING
+MILLER     ACCOUNTING
+
+
+
+-- Question 14 EXPLAIN SUB QUERY IN DETAIL .
+
+A query written inside another query is called as sub-query.
+
+Its Working-
+	1.	Let use consider two query outer query and the inner query.
+	2.	At first after writting the query the inner query will be executed and produces an output.
+	3.	Then, that produced output by the inner query will be the sent as input to the outer query.
+	4.	At last the outer query will executes and returns the final output which is result.
+	
+	Therefore, because of outer query dependent on inner query. So we can say that it is sub-query.
+	
+	Case 1:
+		we use sub-query, whenever there is an unknown present in the question or the query. 
+	Case 2:
+		Whenever the data is to be selected is present in one table but the condition is to be executed on another table 
+		we use sub-query.
+		
+TYPES OF SUB-QUERY --
+
+1.	Single-Row Sub-Query
+2.	Multi-Row Sub-Query
+
+
+	1.	Single-Row Sub-Query: Whenever the inner sub-query executes and produces a single output. then it is known as single 
+		row sub-query.
+	2.	Multi-Row Sub-Query: Whenever the inner sub-query executes and produces a more than one output. then it is known as 
+		Multi-Row sub-query.
+
+
+Sub-Query Operators:-
+	1.	ANY: It is used to satisfy any one among the given condition.
+	2.	All: It is used to when we have to satisfy all the given condition of inner-query
+	
+	
+Nested Sub-Query: A sub-query written insert another sub-query is known as Nested sub-query. We can nest upto 255 times
+				  maximum.
+				  
+
+-- Question 15 EXPLAIN SELF JOINS IN DETAIL .
+	
+When we join the table by itself. Then we say Self-Join.
+	1.	It's used when related data exists in the same table but in different rows.
+	2.	We use aliases to treat the same table as two different ones during the join.
+
+
+	Case 1:	 Whenever the data is to be selected is present in same table but in different records we use self joins.
+
+
+
+	Example: 
+		Display employee names along with their manager names (both from EMP table):
+
+		SELECT E1.ENAME AS EMPLOYEE, E2.ENAME AS MANAGER
+		FROM EMP E1, EMP E2
+		WHERE E1.MGR = E2.EMPNO;
+	
+
+-- Question 16 Create a both the Table .
+
+Table Name : Book_My_Show
+			Attributes ·
+				1.Movie_ID
+				2.Movie Name
+				3 Seats Availabe
+				4. Audi No
+Table Name : Audis
+			Attributes :
+				1. Audi No
+				2. Floor
+				3. Room No
+				4. Entry Time
+
+
+-- Query for Above one.
+
+CREATE TABLE BOOK_MY_SHOW (
+	MOVIE_ID NUMBER(3) PRIMARY KEY,
+	MOVIE_NAME VARCHAR(20) NOT NULL,
+	SEATS_AVALIABLE NUMBER(3) NOT NULL,
+	AUDI_NO NUMBER(3) NOT NULL
+);
+
+
+CREATE TABLE AUDIS (
+	AUDI_NO NUMBER(3) PRIMARY KEY,
+	FLOOR NUMBER(2) NOT NULL,
+	ROOM_NO VARCHAR(10) NOT NULL,
+	ENTRY_TIME TIMESTAMP NOT NULL
+);
+
+
+ALTER TABLE BOOK_MY_SHOW 
+ADD CONSTRAINT fk
+FOREIGN KEY (AUDI_NO)
+REFERENCES AUDIS (AUDI_NO);
+
+
+
+-- Question 17 For the table created above Add some movies ( entries )
+
+-- BY THIS WAY ONE BY ONE ENTRIES
+INSERT INTO BOOK_MY_SHOW VALUES (...)
+
+-- FOR MULTIPLE (SQL WILL ASK TO ENTER ONE BY ONE. AT END OF EACH COMPLETE ROW HIT ENTER TO SAVE IT AND USE SYMBOL / AND HIT ENTER AGAIN)
+
+
+INSERT INTO BOOK_MY_SHOW VALUES(&MOVIE_ID,&MOVIE_NAME,&SEATS_AVALIABLE,&AUDI_NO);
+
+
+-- Before inserting into BOOK_MY_SHOW, WE must first insert a row in AUDIS.
+
+
+-- INSERTING IN AUDIS
+
+INSERT INTO AUDIS (AUDI_NO, FLOOR, ROOM_NO, ENTRY_TIME)
+VALUES (101, 1, 'A1', SYSTIMESTAMP);
+
+INSERT INTO AUDIS (AUDI_NO, FLOOR, ROOM_NO, ENTRY_TIME) VALUES (102, 2, 'A2', SYSTIMESTAMP);
+
+INSERT INTO AUDIS (AUDI_NO, FLOOR, ROOM_NO, ENTRY_TIME) VALUES (103, 3, 'C3', SYSTIMESTAMP);
+
+INSERT INTO AUDIS (AUDI_NO, FLOOR, ROOM_NO, ENTRY_TIME) VALUES (104, 4, 'B2',SYSTIMESTAMP);
+
+
+-- INSERTING IN BOOK_MY_SHOW
+
+INSERT INTO BOOK_MY_SHOW VALUES(201, 'HARRY_POTTER', 12, 101);
+
+INSERT INTO BOOK_MY_SHOW VALUES (202, 'Inception', 120, 102);
+
+INSERT INTO BOOK_MY_SHOW VALUES (203, 'Interstellar', 100, 102);
+
+INSERT INTO BOOK_MY_SHOW VALUES (204, 'Avengers', 150, 103);
+
+
+
+-- 18 AND 19 ARE NOT PRESENT IN THE Question
+
+
+-- Question 20 Write a command to empty the records present in EMP table.
+
+
+TRUNCATE TABLE EMP;

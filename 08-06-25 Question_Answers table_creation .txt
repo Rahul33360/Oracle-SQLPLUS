@@ -1,0 +1,80 @@
+-- TABLE CREATION SYNTAX EXAMPLES --
+
+IPL (TABLE NAME) --
+ CREATE TABLE IPL (
+ TID CHAR(3) PRIMARY KEY,
+ TNAME VARCHAR(10) NOT NULL UNIQUE,
+ LOC VARCHAR(10) NOT NULL UNIQUE);
+
+
+
+PLAYERS (TABLE NAME) --
+
+ CREATE TABLE PLAYERS
+ (PID NUMBER(2) PRIMARY KEY,
+ PNAME VARCHAR(10) NOT NULL,
+ PRICE NUMBER(5) NOT NULL CHECK (PRICE >= 0),
+ TID CHAR(3) REFERENCES IPL(TID) );
+ 
+ 
+ 
+-- Question 1 Create a Books table with the following structure:-
+
+		BookID (Number(3), Primary Key)
+		Title  (Varchar2(15))
+		Author (Varchar2(20))
+		Genre  (Varchar2(15))
+		Price  (Number with 2 decimal places)
+
+
+BOOKS (TABLE NAME) --
+
+	CREATE TABLE BOOKS
+	(BOOKID NUMBER(3) PRIMARY KEY,
+	 TITLE VARCHAR2(15) NOT NULL,
+	 AUTHOR VARCHAR2(20) NOT NULL UNIQUE,
+	 GENRE VARCHAR2(15) NOT NULL,
+	 PRICE NUMBER(5,2) CHECK (PRICE >= 0)
+	);
+	
+	
+	
+-- Question 2 Create a Members table with the following structure:-
+
+		MemberID (Number(3), Primary Key)
+		Name (Varchar2(15))
+		Email (Varchar2(20))
+		JoinDate (Date)
+	
+	
+MEMBER (TABLE NAME) --
+
+	CREATE TABLE MEMBER
+	(MEMBERID NUMBER(3) PRIMARY KEY,
+	NAME VARCHAR2(15) NOT NULL ,
+	EMAIL VARCHAR2(20) NOT NULL UNIQUE ,
+	JOINDATE DATE NOT NULL
+	);
+	
+
+
+-- Question 3 Create a Book_Issues table with the following structure:-
+
+		IssueID (Number, Primary Key)
+		BookID (Foreign Key from Books)|
+		MemberID (Foreign Key from Members)
+		IssueDate (Date)
+		ReturnDate (Date)
+
+
+BOOK_ISSUES  (TABLE NAME) --
+
+	CREATE TABLE BOOK_ISSUES
+	(ISSUEID NUMBER(3) PRIMARY KEY,
+	BOOKID NUMBER(3) REFERENCES BOOKS(BOOKID),
+	MEMBERID NUMBER(3) REFERENCES MEMBER(MEMBERID),
+	ISSUEDATE DATE NOT NULL CHECK(ISSUEDATE >= SYSDATE),
+	RETURNDATE DATE NOT NULL CHECK(RETURNDATE >= ISSUEDATE)
+	);
+	
+	
