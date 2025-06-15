@@ -403,3 +403,10 @@ INSERT INTO BOOK_MY_SHOW VALUES (204, 'Avengers', 150, 103);
 
 
 TRUNCATE TABLE EMP;
+
+
+(but be aware before doing TRUNCATE because it is auto commit you cannot bring data even by ROLLBACK. 
+
+TO avoid You can use
+	delete 
+)

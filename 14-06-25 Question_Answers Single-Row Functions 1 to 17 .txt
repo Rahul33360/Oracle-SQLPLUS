@@ -1,0 +1,409 @@
+-- Single Row Functions
+
+1. Length():
+
+	SELECT Length('RAHUL')
+	FROM DUAL;
+
+Output:
+
+LENGTH('RAHUL')
+---------------
+              5
+
+
+2.	UPPER():
+	
+	SELECT UPPER('rahul')
+	FROM DUAL;
+	
+
+Output:
+
+UPPER
+-----
+RAHUL
+
+
+3.	LOWER():
+
+	SELECT LOWER('RAHUL')
+	FROM DUAL;
+
+Output:
+
+LOWER
+-----
+rahul
+
+
+
+4.	INITCAP():
+	
+	SELECT INITCAP('RahUl kUmaR')
+	FROM DUAL;
+
+	
+Output:
+
+INITCAP('RA
+-----------
+Rahul Kumar
+
+
+
+5.	SUBSTR():
+	SYNTAX :-
+		SELECT SUBSTR(ORIGINAL_STR,POSITION,Length)
+		FROM DUAL;
+		
+							(1 BASED INDEXING FOR POSITION)
+							(IT HAS -ve INDEXING ALSO)
+							
+	Ex-
+		SELECT SUBSTR('RAHUL_KUMAR',1,6)
+		FROM DUAL;
+		
+Output:
+
+SUBSTR
+------
+RAHUL_
+		
+		(-ve One) ->
+		
+		SELECT SUBSTR('RAHUL_KUMAR',-2,3)
+		FROM DUAL;
+
+Output:
+
+SU
+--
+AR
+
+
+
+6.	INSTR():
+	
+	SYNTAX ->
+		SELECT INSTR(ORIGINAL_STR,POSITION,OCCURANCE)
+		FROM DUAL;
+		
+	Ex-
+		SELECT INSTR('RAHUL_KUMAR','R',1,1)
+		FROM DUAL;
+		
+Output:
+
+
+INSTR('RAHUL_KUMAR','R',1,1)
+----------------------------
+                           1
+				
+		
+	Ex-
+		SELECT INSTR('RAHUL_KUMAR','R',1,2)
+		FROM DUAL;
+		
+Output:	-- HERE ABOVE 2 MEANS 2ND OCCURANCE OF THE CHARACTER (R)
+
+
+INSTR('RAHUL_KUMAR','R',1,2)
+----------------------------
+                          11
+
+
+7. TRIM():
+
+	SELECT TRIM('         RAHUL        ')
+	FROM DUAL;
+	
+Output:		(SPACES TRIMMING)
+
+	
+TRIM(
+-----
+RAHUL
+
+	
+	(1) LEADING
+	(2) TRAILING
+	(3) BOTH
+	
+	
+	(1) LEADING() :
+	
+		SELECT TRIM(LEADING 'X' FROM 'XXXRAHULXX' )
+		FROM DUAL;
+		
+	Output: 	(TRIMS THE X VALUES FROM STRING AT BEGINNING)
+	
+		TRIM(LE
+		-------
+		RAHULXX
+
+	(2)	TRAILING():
+		
+		SELECT TRIM(TRAILING 'X' FROM 'XXXRAHULXX')
+		FROM DUAL;
+		
+		Output:	(REMOVES/TRIM VALUES PRESENT AT THE END)
+			
+			TRIM(TRA
+			--------
+			XXXRAHUL
+	
+	(3)	BOTH():
+	
+		SELECT TRIM(BOTH 'X' FROM 'XXXRAHULXX')
+		FROM DUAL;
+		
+		Output: (REMOVES THE VALUES FROM BOTH ENDS)
+							
+			TRIM(
+			-----
+			RAHUL
+
+
+8. 	REPLACE():
+	
+	SYNTAX ->
+	
+		SELECT REPLACE(ORIGINAL_STR,TO_CHANG_STR,WIHT_NEW_STR)
+		FROM DUAL;
+	
+	Ex- 
+		SELECT REPLACE('BANANA','A','Y')
+		FROM DUAL;
+		
+	Output: 
+		
+		REPLAC
+		------
+		BYNYNY
+
+
+9.	ROUND():
+	
+	SYNTAX->
+		SELECT ROUND(VALUES,N)
+		FROM DUAL;
+		
+	Ex-	(IT ROUNDS OFF VALUE TO NEAREST NUMBER)
+		SELECT ROUND(10.9)
+		FROM DUAL;
+		
+	Output:
+			
+		ROUND(10.9)
+		-----------
+				 11
+
+
+		SELECT ROUND(10.4)
+		FROM DUAL;
+		
+	Output:
+		
+		ROUND(10.4)
+		-----------
+				 10
+				 
+		SELECT ROUND(123.45)
+		FROM DUAL;
+	
+	Output:
+		
+		ROUND(123.45)
+		-----------
+				 123
+	
+		SELECT ROUND(123.45, 1)
+		FROM DUAL;
+	
+	Output:
+						
+		ROUND(123.45,1)
+		---------------
+				  123.5
+				 
+		SELECT ROUND(123.45, -1)
+		FROM DUAL;
+	
+	Output:
+								
+		ROUND(123.45,-1)
+		----------------
+					 120
+
+		
+		SELECT ROUND(12345, -3)
+		FROM DUAL;
+	
+	Output: 
+	
+		ROUND(12345,-3)
+		---------------
+				  12000
+
+
+10.	TRUNC():	(ROUND OFF TO LOWERST VALUE)
+	
+	SELECT TRUNC(112.9)
+	FROM DUAL;
+	
+	Output:	
+		TRUNC(112.95)
+		------------
+				 112
+
+
+11.	ABS():
+	
+	SELECT ABS(-100)
+	FROM DUAL;
+	
+	Output:				
+		 ABS(-100)
+		----------
+			   100
+
+
+12. MONTHS_BETWEEN(): (TELLS THE TOTAL MONTHS IN THE RANGE)
+
+	SYNTAX ->
+		SELECT MONTHS_BETWEEN(FROM DATE_1, TO DATE_2)
+		FROM DUAL;
+		
+	Ex-
+		SELECT MONTHS_BETWEEN(SYSDATE,'22-DEC-2003')
+		FROM DUAL;
+		
+	Output:
+
+		MONTHS_BETWEEN(SYSDATE,'22-DEC-2003')
+		-------------------------------------
+								   257.773704
+
+
+13. ADD_MONTHS():	
+	
+	SELECT ADD_MONTHS(SYSDATE,12)
+	FROM DUAL;
+	
+	Output:
+		
+		ADD_MONTH
+		---------
+		14-JUN-26
+
+
+14.	TO_CHAR():
+	
+	-- Question - WAQTD THE DETAILS OF EMP HIRED ON WEDNESDAY
+		
+		SELECT *
+		FROM EMP
+		WHERE TO_CHAR(HIREDATE,'DAY') = 'WEDNESDAY';
+
+	Output:
+	
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+
+
+
+	Ex-	
+		SELECT TO_CHAR(4203223, '99,99,999')
+		FROM DUAL;
+	
+	Output:
+		
+		TO_CHAR(42
+		----------
+		 42,03,223
+
+
+
+15.	CEIL():  (ROUND OFF TO UPPER VALUE)
+	
+	SELECT CEIL(10.1)
+	FROM DUAL;
+	
+	Output:
+					
+	CEIL(10.1)
+	----------
+			11
+
+
+16.	FLOOR():  (ROUND OFF TO LOWER VALUE)
+	
+	SELECT FLOOR(10.9)
+	FROM DUAL;
+	
+	Output:			
+		FLOOR(10.9)
+		-----------
+				10
+
+
+17.	OVER():
+	
+	-- Question WAQTD all details of all employees along with the maximum salary.
+	
+	SELECT EMP.*, (SELECT MAX(SAL) FROM EMP) AS MAX_SAL
+	FROM EMP;
+
+Output:
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO    MAX_SAL
+---------- ---------- --------- ---------- --------- ---------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20       5000
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30       5000
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30       5000
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20       5000
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30       5000
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10       5000
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20       5000
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10       5000
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30       5000
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20       5000
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30       5000
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20       5000
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10       5000
+
+13 rows selected.
+
+
+-- SAME WE CAN ACHIEVE WITH OVER()
+		
+	SELECT EMP.*, MAX(SAL) OVER()
+	FROM EMP;
+
+	
+Output:
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO MAX(SAL)OVER()
+---------- ---------- --------- ---------- --------- ---------- ---------- ---------- --------------
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20           5000
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30           5000
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30           5000
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20           5000
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30           5000
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10           5000
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20           5000
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10           5000
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30           5000
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20           5000
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30           5000
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20           5000
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10           5000
+
+13 rows selected.
